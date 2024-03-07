@@ -4,15 +4,15 @@ const isNumber = require('./isNumber')
 
 router.post('/calculate', (req, res) => {
     const { operation, num1, num2 } = req.body;
+
     let result;
     if(isNumber(num1) && isNumber(num2)){
-        // console.log("Tak")
         switch (operation) {
             case 'add':
-                result = num1 + num2;
+                result = parseFloat(num1) + parseFloat(num2);
                 break;
             case 'subtract':
-                result = num1 - num2;
+                result = parseFloat(num1) - parseFloat(num2);
                 break;
             case 'multiply':
                 result = (num1 * num2).toFixed(2);
