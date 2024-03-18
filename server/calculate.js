@@ -51,8 +51,8 @@ router.post('/calculate', (req, res) => {
     while (operatorsStack.length > 0) {
         performOperation(operandsStack, operatorsStack);
     }
-
-    res.json({ result: operandsStack.pop() });
+    const roundedResult = parseFloat((operandsStack.pop()).toFixed(2));
+    res.json({ result: roundedResult });
 });
 
 function performOperation(operandsStack, operatorsStack) {
