@@ -16,7 +16,7 @@ const Calculator = () => {
             error: null,
         })
     }
-    const operators = ['+','-','*','/','(',')'];
+    const operators = ['+','-','*','/','(',')','.'];
     const handleButtonClick = (value) => {
         if (operators.includes(value)){
             setCalculation({
@@ -71,39 +71,41 @@ const Calculator = () => {
     };
     return (
         <div className="calculator">
-            <h1>Calculator</h1>
-            <div className="row" id="row1">
-                <input type="text" value={calculation.display} readOnly />
+            <div className="display-container">
+                {/*popraw tutaj ma byc Err jezeli cos jest nie tak*/}
+                <div className="display"> 
+                    {calculation.display}
+                </div>
             </div>
+
             <div className="row" id="row2">
                 <button onClick={() => handleButtonClick('7')}>7</button>
                 <button onClick={() => handleButtonClick('8')}>8</button>
                 <button onClick={() => handleButtonClick('9')}>9</button>
-                <button onClick={() => handleButtonClick('/')}>/</button>
+                <button id="operand" onClick={() => handleButtonClick('/')}>/</button>
             </div>
             <div className="row" id="row3">
                 <button onClick={() => handleButtonClick('4')}>4</button>
                 <button onClick={() => handleButtonClick('5')}>5</button>
                 <button onClick={() => handleButtonClick('6')}>6</button>
-                <button onClick={() => handleButtonClick('*')}>*</button>
+                <button id="operand" onClick={() => handleButtonClick('*')}>*</button>
             </div>
             <div className="row" id="row4">
                 <button onClick={() => handleButtonClick('1')}>1</button>
                 <button onClick={() => handleButtonClick('2')}>2</button>
                 <button onClick={() => handleButtonClick('3')}>3</button>
-                <button onClick={() => handleButtonClick('-')}>-</button>
+                <button id="operand" onClick={() => handleButtonClick('-')}>-</button>
             </div>
             <div className="row" id="row5">
                 <button onClick={() => handleButtonClick('0')}>0</button>
                 <button onClick={() => handleButtonClick('.')}>.</button>
                 <button onClick={handleClear}>C</button>
-                <button onClick={() => handleButtonClick('+')}>+</button>
+                <button id="operand" onClick={() => handleButtonClick('+')}>+</button>
             </div>
             <div className="row" id="row6">
-                <button onClick={handleCalculate}>=</button>
+                <button id="operand" onClick={handleCalculate}>=</button>
             </div>
-            {calculation.error && <p>Error: {calculation.error}</p>}
-            {calculation.result !== null && <p>Result: {calculation.result}</p>}
+
         </div>
     );
 };
