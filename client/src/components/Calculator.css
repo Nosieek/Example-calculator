@@ -1,22 +1,39 @@
+*{
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
+}
 .calculator {
+    position: relative; /* Ustawienie pozycji relative na calculator */
     margin: 20px auto;
-    max-width: 800px;
+    padding: 5%;
+    max-width: 55%;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 45px;
     overflow: hidden;
 }
+.display-container {
 
-.screen {
-    padding: 10px;
-    background-color: rebeccapurple;
-    text-align: right;
-    font-size: 18px;
-    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 3%;
+    min-height: 100%;
 }
 
-.buttons {
+
+.display {
+    border-radius: 20px;
+    font-size: 54px;
+    width: 60%;
+    min-height: 70px;
+    border: 3px solid #817e7e;
+    padding: 5px;
+    text-align: right;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .row {
@@ -26,9 +43,29 @@
 }
 
 button {
-    flex: 1 0 20%; /* Adjust the flex property to control the button width */
+    flex: 1 0 20%;
     margin: 0 5px;
     padding: 8px;
-    font-size: 16px;
+    font-size: 46px;
     cursor: pointer;
+    background: #817e7e;
+}
+#operand{
+    color: white;
+    background: orange;
+    text-align: center;
+    font-size: 40px;
+}
+@media (max-width: 768px) {
+    .calculator {
+        max-width: 90%;
+    }
+
+    .display {
+        font-size: 6vw; /* Zmiana rozmiaru tekstu na mniejszych ekranach */
+    }
+
+    button {
+        font-size: 5vw; /* Zmiana rozmiaru przycisków na mniejszych ekranach */
+    }
 }
