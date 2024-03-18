@@ -4,6 +4,7 @@ const isNumber = require('./isNumber');
 
 router.post('/calculate', (req, res) => {
     const { expression } = req.body;
+    console.log("CO OTRZYMAŁEM:",expression)
     const precedence = {
         '*': 2,
         '/': 2,
@@ -28,8 +29,8 @@ router.post('/calculate', (req, res) => {
         const part = parts[i];
 
 
-        console.log("Operand stack: ",operandsStack)
-        console.log("Operators stack: ",operatorsStack)
+        // console.log("Operand stack: ",operandsStack)
+        // console.log("Operators stack: ",operatorsStack)
         if (isNumber(part)) {
             operandsStack.push(parseFloat(part));
             //obsluge brackets dodamy pozniej
