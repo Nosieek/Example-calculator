@@ -1,27 +1,49 @@
 import React, { useState } from 'react';
+import './Calculator.css'
 const Calculator = () => {
     const [calculation, setCalculation] = useState({
-        operation: 'add',
-        num1: '',
-        num2: '',
+        expression: '',
+        display: '',
         result: null,
         error: null,
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setCalculation({ ...calculation, [name]: value });
+    const handleClear = () =>{
+        setCalculation({
+            expression: '',
+            display: '',
+            result: null,
+            error: null,
+        })
+    }
+    const operators = ['+','-','*','/','(',')'];
+    const handleButtonClick = (value) => {
+        if (operators.includes(value)){
+            setCalculation({
+                ...calculation,
+                expression: calculation.expression + value,
+                display: calculation.display + value
+            });
+        } else {
+            if (calculation.display === '') {
+                setCalculation({
+                    ...calculation,
+                    expression: calculation.expression + value,
+                    display: parseFloat(value).toString()
+                });
+            } else {
+                setCalculation({
+                    ...calculation,
+                    expression: calculation.expression + value,
+                    display: calculation.display + parseFloat(value).toString()
+                });
+            }
+        }
     };
+
 
     const handleCalculate = async () => {
         try {
-            const num1 = parseFloat(calculation.num1);
-            const num2 = parseFloat(calculation.num2);
-
-            if (isNaN(num1) || isNaN(num2)) {
-                setCalculation({ ...calculation, result: null, error: 'Invalid number' });
-                return;
-            }
             const response = await fetch('http://localhost:4848/api/calculate', {
                 method: 'POST',
                 headers: {
@@ -30,10 +52,14 @@ const Calculator = () => {
                 body: JSON.stringify(calculation),
             });
 
-
             if (response.ok) {
                 const data = await response.json();
-                setCalculation({ ...calculation, result: data.result, error: null });
+                setCalculation({
+                    ...calculation,
+                    expression: data.result.toString(), //podmieniamy exp oraz display po znaku =
+                    display: data.result.toString(),
+                    result: data.result,
+                    error: null });
                 console.log(data.result)
             } else {
                 const errorData = await response.json();
@@ -43,38 +69,41 @@ const Calculator = () => {
             console.error('Error during calculation:', error);
         }
     };
-
     return (
-        <div>
+        <div className="calculator">
             <h1>Calculator</h1>
-            <div>
-                <label>
-                    Num1:
-                    <input type="number" name="num1" value={calculation.num1} onChange={handleInputChange} />
-                </label>
+            <div className="row" id="row1">
+                <input type="text" value={calculation.display} readOnly />
             </div>
-            <div>
-                <label>
-                    Operation:
-                    <select name="operation" value={calculation.operation} onChange={handleInputChange}>
-                        <option value="add">Add</option>
-                        <option value="subtract">Subtract</option>
-                        <option value="multiply">Multiply</option>
-                        <option value="divide">Divide</option>
-                    </select>
-                </label>
+            <div className="row" id="row2">
+                <button onClick={() => handleButtonClick('7')}>7</button>
+                <button onClick={() => handleButtonClick('8')}>8</button>
+                <button onClick={() => handleButtonClick('9')}>9</button>
+                <button onClick={() => handleButtonClick('/')}>/</button>
             </div>
-            <div>
-                <label>
-                    Num2:
-                    <input type="number" name="num2" value={calculation.num2} onChange={handleInputChange} />
-                </label>
+            <div className="row" id="row3">
+                <button onClick={() => handleButtonClick('4')}>4</button>
+                <button onClick={() => handleButtonClick('5')}>5</button>
+                <button onClick={() => handleButtonClick('6')}>6</button>
+                <button onClick={() => handleButtonClick('*')}>*</button>
             </div>
-            <div>
-                <button onClick={handleCalculate}>Calculate</button>
+            <div className="row" id="row4">
+                <button onClick={() => handleButtonClick('1')}>1</button>
+                <button onClick={() => handleButtonClick('2')}>2</button>
+                <button onClick={() => handleButtonClick('3')}>3</button>
+                <button onClick={() => handleButtonClick('-')}>-</button>
+            </div>
+            <div className="row" id="row5">
+                <button onClick={() => handleButtonClick('0')}>0</button>
+                <button onClick={() => handleButtonClick('.')}>.</button>
+                <button onClick={handleClear}>C</button>
+                <button onClick={() => handleButtonClick('+')}>+</button>
+            </div>
+            <div className="row" id="row6">
+                <button onClick={handleCalculate}>=</button>
             </div>
             {calculation.error && <p>Error: {calculation.error}</p>}
-            {calculation.result && <p>Result: {calculation.result}</p>}
+            {calculation.result !== null && <p>Result: {calculation.result}</p>}
         </div>
     );
 };
