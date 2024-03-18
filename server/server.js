@@ -14,4 +14,5 @@ app.use('/api',cors(corsOptions), calculateRouter);
 
 
 const PORT = 4848
-app.listen(PORT, ()=> console.log(`Server started on the port 4848: http://localhost:${PORT}`))
+const server = app.listen(PORT, () => console.log(`Server started on the port 4848: http://localhost:${PORT}`))
+module.exports = server;
